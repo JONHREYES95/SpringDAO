@@ -1,3 +1,4 @@
+/*
 package sv.edu.udb.dao;
 
 import java.sql.Connection;
@@ -89,3 +90,4 @@ public class UserDAO {
     	return result;
     }
 }
+*/

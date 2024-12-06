@@ -1,6 +1,12 @@
 package sv.edu.udb.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private String email;
@@ -56,8 +62,8 @@ public class User {
 		this.email = "";
 		this.username = "";
 		this.password = "";
-		this.role = "";
-		this.loggedIn = false;
+		this.role = "user";
+		this.loggedIn = null;
 	}
 	
 	

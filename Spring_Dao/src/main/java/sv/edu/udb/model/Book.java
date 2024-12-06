@@ -18,7 +18,7 @@ public class Book {
 	private int sold;
 	private String cover;
 	private String description;
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -67,11 +67,11 @@ public class Book {
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
-	
+
 	public Book() {
-		
+
 	}
-	
-	
+
+
 
 }

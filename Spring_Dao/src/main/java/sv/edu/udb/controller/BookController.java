@@ -46,7 +46,7 @@ public class BookController {
 			return "admin";
 		}
 	}
-	
+
 	@GetMapping("/admin/view/{id}")
 	public String getABookAdmin(Model model, HttpSession httpSession, @PathVariable String id) {
 		User user = (User)httpSession.getAttribute("user");
@@ -57,17 +57,17 @@ public class BookController {
 		}
 		return "error";
 	}
-	
+
 	@PostMapping("/admin/save/{id}")
-	public String saveABookAdmin(Model model, HttpSession httpSession, 
-			@PathVariable String id, 
-			@RequestParam("title") String title, 
-			@RequestParam("author") String author,
-			@RequestParam("category") String category,
-			@RequestParam("description") String description,
-			@RequestParam("publishdate") String publishdate,
-			@RequestParam("numberofpage") String numberofpage,
-			@RequestParam("cover") MultipartFile cover) throws IOException {
+	public String saveABookAdmin(Model model, HttpSession httpSession,
+								 @PathVariable String id,
+								 @RequestParam("title") String title,
+								 @RequestParam("author") String author,
+								 @RequestParam("category") String category,
+								 @RequestParam("description") String description,
+								 @RequestParam("publishdate") String publishdate,
+								 @RequestParam("numberofpage") String numberofpage,
+								 @RequestParam("cover") MultipartFile cover) throws IOException {
 		User user = (User)httpSession.getAttribute("user");
 		if(user != null && user.getLoggedIn() && user.getRole().equals("admin")) {
 			Book book = new Book();
@@ -89,7 +89,7 @@ public class BookController {
 				Files.write(path, bytes);
 				book.setCover(newFileName);
 			}
-			
+
 			boolean success = bookDAO.updateABook(book);
 			if(success) {
 				return "redirect:/admin";
@@ -97,7 +97,7 @@ public class BookController {
 		}
 		return "error";
 	}
-	
+
 	@GetMapping("/admin/new")
 	public String getNewBookAdminPage(Model model, HttpSession httpSession) {
 		User user = (User)httpSession.getAttribute("user");
@@ -106,16 +106,16 @@ public class BookController {
 		}
 		return "error";
 	}
-	
+
 	@PostMapping("/admin/new")
 	public String addABookAdmin(Model model, HttpSession httpSession,
-			@RequestParam("title") String title, 
-			@RequestParam("author") String author,
-			@RequestParam("category") String category,
-			@RequestParam("description") String description,
-			@RequestParam("publishdate") String publishdate,
-			@RequestParam("numberofpage") String numberofpage,
-			@RequestParam("cover") MultipartFile cover) throws IOException {
+								@RequestParam("title") String title,
+								@RequestParam("author") String author,
+								@RequestParam("category") String category,
+								@RequestParam("description") String description,
+								@RequestParam("publishdate") String publishdate,
+								@RequestParam("numberofpage") String numberofpage,
+								@RequestParam("cover") MultipartFile cover) throws IOException {
 		User user = (User)httpSession.getAttribute("user");
 		if(user != null && user.getLoggedIn() && user.getRole().equals("admin")) {
 			Book book = new Book();
@@ -147,7 +147,7 @@ public class BookController {
 		}
 		return "error";
 	}
-	
+
 	@GetMapping("/user")
 	public String getUserPage(Model model, HttpSession httpSession) {
 		List<Book> books = bookDAO.getAllBooks();
@@ -173,28 +173,28 @@ public class BookController {
 			model.addAttribute("book", book);
 			model.addAttribute("ratings", ratings);
 			model.addAttribute("user", user);
-			return "bookdetail";	
+			return "bookdetail";
 		}
 		return "error";
 	}
 	@PostMapping("/admin/delete/")
-	  public String deleteABook(Model model, HttpSession httpSession, @RequestParam("id") String id) {
-	    User user = (User)httpSession.getAttribute("user");
-	    if(user != null && user.getLoggedIn() && user.getRole().equals("admin")) {
-	       String cover = bookDAO.getBookCover(Integer.valueOf(id));
-	       String absolutePath = UPLOAD_DIR + cover;
-	       try {
-	    	   Path fileToDelete = Paths.get(absolutePath);
-	    	   Files.delete(fileToDelete);
-	       }catch (Exception e) {
-	    	   e.printStackTrace();
-	       }
-	       boolean success = bookDAO.deleteABook(Integer.valueOf(id));
-	       
-	       if(success) {
-	         return "redirect:/admin";
-	       }
-	    }
-	    return "error";
-	  }
+	public String deleteABook(Model model, HttpSession httpSession, @RequestParam("id") String id) {
+		User user = (User)httpSession.getAttribute("user");
+		if(user != null && user.getLoggedIn() && user.getRole().equals("admin")) {
+			String cover = bookDAO.getBookCover(Integer.valueOf(id));
+			String absolutePath = UPLOAD_DIR + cover;
+			try {
+				Path fileToDelete = Paths.get(absolutePath);
+				Files.delete(fileToDelete);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			boolean success = bookDAO.deleteABook(Integer.valueOf(id));
+
+			if(success) {
+				return "redirect:/admin";
+			}
+		}
+		return "error";
+	}
 }
